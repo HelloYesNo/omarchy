@@ -6,7 +6,7 @@ echo_in_style() {
 
 clear
 echo
-tte -i ~/.local/share/omarchy/logo.txt --canvas-width 0 --anchor-text c --frame-rate 920 laseretch
+tte -i $HOME/.local/share/omarchy/logo.txt --canvas-width 0 --anchor-text c --frame-rate 920 laseretch
 echo
 
 # Display installation time if available
@@ -20,8 +20,8 @@ else
   echo_in_style "Finished installing"
 fi
 
-if sudo test -f /etc/sudoers.d/99-omarchy-installer; then
-  sudo rm -f /etc/sudoers.d/99-omarchy-installer &>/dev/null
+if test -f /etc/sudoers.d/99-omarchy-installer; then
+  rm -f /etc/sudoers.d/99-omarchy-installer &>/dev/null
   echo
   echo_in_style "Remember to remove USB installer!"
 fi
@@ -35,6 +35,6 @@ if gum confirm --padding "0 0 0 $((PADDING_LEFT + 32))" --show-help=false --defa
     touch /var/tmp/omarchy-install-completed
     exit 0
   else
-    sudo reboot 2>/dev/null
+    reboot 2>/dev/null
   fi
 fi

@@ -1,6 +1,6 @@
 # Ensure we have gum available
 if ! command -v gum &>/dev/null; then
-  sudo dnf5 install -y gum
+  dnf5 install -y gum
 fi
 
 # Get terminal size from /dev/tty (works in all scenarios: direct, sourced, or piped)

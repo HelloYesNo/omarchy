@@ -1,4 +1,4 @@
-# Add ./bin to path for all items in ~/Work
+# Add ./bin to path for all items in $HOME/Work
 mkdir -p "$HOME/Work"
 
 cat >"$HOME/Work/.mise.toml" <<'EOF'
@@ -6,7 +6,7 @@ cat >"$HOME/Work/.mise.toml" <<'EOF'
 _.path = "{{ cwd }}/bin"
 EOF
 
-mise trust ~/Work/.mise.toml
+mise trust $HOME/Work/.mise.toml
 
 if [[ -n "${OMARCHY_CHROOT_INSTALL:-}" ]]; then
   NODE_TARBALL=$(find /opt/packages -name "node-v*-linux-x64.tar.gz" -type f 2>/dev/null | head -n1)

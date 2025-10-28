@@ -1,6 +1,6 @@
-# Ensure git settings live under ~/.config
-mkdir -p ~/.config/git
-touch ~/.config/git/config
+# Ensure git settings live under $HOME/.config
+mkdir -p $HOME/.config/git
+touch $HOME/.config/git/config
 
 # Set common git aliases
 git config --global alias.co checkout
