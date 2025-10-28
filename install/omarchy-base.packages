@@ -103,6 +103,7 @@ pinta
 playerctl
 plocate
 plymouth
+plymouth-plugin-script
 polkit-gnome
 postgresql-libs
 power-profiles-daemon
