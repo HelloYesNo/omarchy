@@ -1,4 +1,4 @@
-KEYRING_DIR="$HOME/.local/share/keyrings"
+KEYRING_DIR="/.local/share/keyrings"
 KEYRING_FILE="$KEYRING_DIR/Default_keyring.keyring"
 DEFAULT_FILE="$KEYRING_DIR/default"
 

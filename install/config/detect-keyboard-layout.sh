@@ -1,6 +1,6 @@
 # Copy over the keyboard layout that's been set in Arch during install to Hyprland
 conf="/etc/vconsole.conf"
-hyprconf="$HOME/.config/hypr/input.conf"
+hyprconf="/.config/hypr/input.conf"
 
 if grep -q '^XKBLAYOUT=' "$conf"; then
   layout=$(grep '^XKBLAYOUT=' "$conf" | cut -d= -f2 | tr -d '"')

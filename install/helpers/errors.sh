@@ -122,7 +122,7 @@ catch_errors() {
 
     case "$choice" in
     "Retry installation")
-      bash $HOME/.local/share/omarchy/install.sh
+      bash /.local/share/omarchy/install.sh
       break
       ;;
     "View full log")
