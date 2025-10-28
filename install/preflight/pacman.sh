@@ -1,5 +1,5 @@
 # Install build tools
-dnf5 install @c-development @development-tools
+dnf5 install -y @c-development @development-tools
 
 # Refresh all repos
-dnf5 update
+dnf5 -y update
