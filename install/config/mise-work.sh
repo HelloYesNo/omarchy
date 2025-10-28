@@ -1,7 +1,7 @@
 # Add ./bin to path for all items in /Work
-mkdir -p "$HOME/Work"
+mkdir -p "/Work"
 
-cat >"$HOME/Work/.mise.toml" <<'EOF'
+cat >"/Work/.mise.toml" <<'EOF'
 [env]
 _.path = "{{ cwd }}/bin"
 EOF
