@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Create pacman hook to restart walker after updates
-sudo mkdir -p /etc/pacman.d/hooks
-sudo tee /etc/pacman.d/hooks/walker-restart.hook > /dev/null << EOF
+mkdir -p /etc/pacman.d/hooks
+tee /etc/pacman.d/hooks/walker-restart.hook > /dev/null << EOF
 [Trigger]
 Type = Package
 Operation = Upgrade
