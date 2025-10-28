@@ -17,8 +17,8 @@ fi
 #   fi
 # else
 #   # No terminal available (e.g., non-interactive environment)
-#   export TERM_WIDTH=80
-#   export TERM_HEIGHT=24
+export TERM_WIDTH=80
+export TERM_HEIGHT=24
 # fi
 
 export LOGO_PATH="$OMARCHY_PATH/logo.txt"
