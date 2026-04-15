@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# Show a fuzzy-finder TUI for picking new packages to install.
+# Supports Arch (pacman) and Fedora (dnf).
+
+# Load distro detection
+OMARCHY_PATH="${OMARCHY_PATH:-$HOME/.local/share/omarchy}"
+if [[ -f "$OMARCHY_PATH/install/helpers/distro.sh" ]]; then
+  source "$OMARCHY_PATH/install/helpers/distro.sh"
+else
+  # fallback detection
+  if [[ -f /etc/arch-release ]]; then
+    DISTRO_ID="arch"
+  elif command -v dnf &>/dev/null; then
+    DISTRO_ID="fedora"
+  else
+    echo "Unsupported distribution." >&2
+    exit 1
+  fi
+fi
+
+case "$DISTRO_ID" in
+  arch)
+    list_cmd="pacman -Slq"
+    preview_cmd="pacman -Sii {1}"
+    install_cmd="pacman -S --noconfirm"
+    ;;
+  fedora)
+    list_cmd="dnf repoquery --available --qf '%{name}'"
+    preview_cmd="dnf info {1}"
+    install_cmd="dnf install -y"
+    ;;
+  *)
+    echo "Unsupported distribution: $DISTRO_ID" >&2
+    exit 1
+    ;;
+esac
+
+fzf_args=(
+  --multi
+  --preview "$preview_cmd"
+  --preview-label='alt-p: toggle description, alt-j/k: scroll, tab: multi-select'
+  --preview-label-pos='bottom'
+  --preview-window 'down:65%:wrap'
+  --bind 'alt-p:toggle-preview'
+  --bind 'alt-d:preview-half-page-down,alt-u:preview-half-page-up'
+  --bind 'alt-k:preview-up,alt-j:preview-down'
+  --color 'pointer:green,marker:green'
+)
+
+pkg_names=$($list_cmd | fzf "${fzf_args[@]}")
+
+if [[ -n $pkg_names ]]; then
+  source omarchy-sudo-keepalive
+
+  # Convert newline-separated selections to space-separated
+  echo "$pkg_names" | tr '\n' ' ' | xargs sudo $install_cmd
+  omarchy-show-done
+fi

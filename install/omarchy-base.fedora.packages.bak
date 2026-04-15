@@ -1,0 +1,158 @@
+# Omarchy core package list for Fedora Linux
+# This file maps Arch package names to Fedora package names (or equivalents).
+# Packages not available in Fedora are commented out with '#'.
+# Packages requiring third‑party repos (RPM Fusion, COPR) are marked.
+
+# Available in default Fedora repositories
+alacritty
+alsa-utils
+avahi
+bash-completion
+bat
+bolt
+brightnessctl
+btop
+chromium
+clang
+cups
+cups-browsed
+cups-filters
+cups-pdf
+docker
+docker-buildx
+docker-compose
+dotnet-runtime-9.0
+evince
+exfatprogs
+eza
+fastfetch
+fcitx5
+fcitx5-gtk
+fcitx5-qt
+fd-find
+ffmpegthumbnailer
+fontconfig
+fzf
+github-cli
+gnome-calculator
+gnome-keyring
+gnome-themes-extra
+grim
+gvfs-mtp
+gvfs-nfs
+gvfs-smb
+ImageMagick
+imv
+inetutils
+inxi
+iwd
+jq
+kdenlive
+kvantum
+lazydocker
+lazygit
+less
+libsecret
+libyaml
+libqalculate
+libreoffice
+llvm
+luarocks
+mako
+man-db
+mariadb-connector-c
+mise
+mpv
+nautilus
+nautilus-python
+gnome-disk-utility
+google-noto-fonts
+google-noto-cjk-fonts
+google-noto-emoji-fonts
+nss-mdns
+neovim
+obs-studio
+pamixer
+pinta
+playerctl
+plocate
+plymouth
+polkit-gnome
+postgresql-libs
+power-profiles-daemon
+python3-gobject
+python3-poetry-core
+qt5-qtwayland
+ripgrep
+ruby
+rust
+sddm
+signal-desktop
+slurp
+starship
+sushi
+swaybg
+swayosd
+system-config-printer
+tldr
+tree-sitter
+tmux
+jetbrains-mono-fonts
+ufw
+unzip
+waybar
+whois
+wireless-regdb
+wireplumber
+wl-clipboard
+fontawesome-fonts
+xdg-desktop-portal-gtk
+xdg-desktop-portal-hyprland
+xdg-terminal-exec
+xmlstarlet
+xournalpp
+yaru-icon-theme
+zoxide
+
+# From COPR (hyprland)
+hyprland
+hypridle
+hyprlock
+hyprpicker
+hyprsunset
+hyprland-guiutils
+hyprland-preview-share-picker
+
+# From RPM Fusion non‑free
+# spotify-client
+# 1password
+# 1password-cli
+# claude-code
+# gpu-screen-recorder
+
+# From other third‑party repositories
+# gum (already installed by installer)
+# dust
+# localsend
+# obsidian
+
+# Arch‑specific packages (skip)
+# expac
+# kernel-modules-hook
+# yay
+# omarchy-nvim
+# omarchy-walker
+# asdcontrol
+# bluetui
+# aether
+# impala
+# satty
+# tobi-try
+# ttf-ia-writer
+# typora
+# tzupdate
+# ufw-docker
+# usage
+# uwsm
+# wiremix
+# python-terminaltexteffects

@@ -1,0 +1,6 @@
+#!/bin/bash
+# Stub for Fedora compatibility
+# The actual omarchy-nvim-setup is not available on Fedora.
+# This script does nothing and exits successfully.
+echo "Skipping omarchy-nvim-setup on Fedora." >&2
+exit 0

@@ -1,0 +1,174 @@
+# Omarchy core package list for Fedora Linux
+# This file maps Arch package names to Fedora package names (or equivalents).
+# Packages not available in Fedora are commented out with '#'.
+
+# 1password-beta - not in Fedora, consider 1password from official repo
+#1password-beta
+# 1password-cli
+#1password-cli
+# aether - not available
+#alacritty
+alacritty
+alsa-utils
+# asdcontrol - not available
+avahi
+bash-completion
+bat
+# bluetui - not available
+bolt
+brightnessctl
+btop
+chromium
+clang
+# claude-code - not available
+cups
+cups-browsed
+cups-filters
+cups-pdf
+docker
+docker-buildx
+docker-compose
+dotnet-runtime-9.0
+# dust - not in default repos, maybe from copr
+evince
+exfatprogs
+# expac - Arch-specific, not needed
+eza
+fastfetch
+fcitx5
+fcitx5-gtk
+fcitx5-qt
+fd-find
+ffmpegthumbnailer
+fontconfig
+fzf
+github-cli
+gnome-calculator
+gnome-keyring
+gnome-themes-extra
+grim
+# gpu-screen-recorder - not in default repos
+# gum - not in default repos
+gvfs-mtp
+gvfs-nfs
+gvfs-smb
+# hypridle - from Hyprland COPR
+# hyprland - from Hyprland COPR
+# hyprland-guiutils - from Hyprland COPR
+# hyprland-preview-share-picker - from Hyprland COPR
+# hyprlock - from Hyprland COPR
+# hyprpicker - from Hyprland COPR
+# hyprsunset - from Hyprland COPR
+ImageMagick
+# impala - not available
+imv
+inetutils
+inxi
+iwd
+jq
+kdenlive
+# kernel-modules-hook - Arch-specific, skip
+kvantum
+lazydocker
+lazygit
+less
+libsecret
+libyaml
+libqalculate
+libreoffice
+llvm
+# localsend - not in default repos
+luarocks
+mako
+man-db
+mariadb-connector-c
+mise
+mpv
+nautilus
+nautilus-python
+gnome-disk-utility
+google-noto-fonts
+google-noto-cjk-fonts
+google-noto-emoji-fonts
+nss-mdns
+neovim
+obs-studio
+# obsidian - not in default repos
+# omarchy-nvim - custom, skip
+# omarchy-walker - custom, skip
+pamixer
+pinta
+playerctl
+plocate
+plymouth
+polkit-gnome
+postgresql-libs
+power-profiles-daemon
+python3-gobject
+python3-poetry-core
+# python-terminaltexteffects - not available
+qt5-qtwayland
+ripgrep
+ruby
+rust
+# satty - not available
+sddm
+signal-desktop
+slurp
+# spotify - from RPM Fusion nonfree
+starship
+sushi
+swaybg
+swayosd
+system-config-printer
+tldr
+tree-sitter
+tmux
+# tobi-try - not available
+# ttf-ia-writer - not available
+jetbrains-mono-fonts
+# typora - not available
+# tzupdate - not available
+ufw
+# ufw-docker - not available
+unzip
+# usage - not available
+# uwsm - not available
+waybar
+whois
+wireless-regdb
+# wiremix - not available
+wireplumber
+wl-clipboard
+fontawesome-fonts
+xdg-desktop-portal-gtk
+xdg-desktop-portal-hyprland
+xdg-terminal-exec
+xmlstarlet
+xournalpp
+yaru-icon-theme
+# yay - Arch-specific, skip
+zoxide
+
+# Additional Fedora packages needed for Omarchy
+hyprland
+hypridle
+hyprlock
+hyprpicker
+hyprsunset
+hyprland-guiutils
+hyprland-preview-share-picker
+gum
+dust
+spotify-client
+localsend
+obsidian
+1password
+1password-cli
+claude-code
+gpu-screen-recorder
+# Note: Many of these may need to be installed from third-party repos (COPR, RPM Fusion).
+# The installer should set up those repositories first.
+
+lines_read: 133
+was_truncated: False

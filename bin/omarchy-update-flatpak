@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+if ! command -v flatpak &>/dev/null; then
+  echo "Flatpak not installed, skipping."
+  exit 0
+fi
+
+echo -e "\e[32m\nUpdate Flatpak applications\e[0m"
+flatpak update -y
+
+lines_read: 11
+was_truncated: False
