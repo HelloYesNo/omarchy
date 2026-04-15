@@ -1,3 +1,10 @@
+#!/bin/bash
+
+if ! command -v powerprofilesctl &>/dev/null; then
+    echo "powerprofilesctl not found; skipping power profile rules."
+    exit 0
+fi
+
 if omarchy-battery-present; then
   mapfile -t profiles < <(omarchy-powerprofiles-list)
 

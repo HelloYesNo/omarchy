@@ -1,10 +1,49 @@
 #!/bin/bash
 
-# Show a fuzzy-finder TUI for picking new AUR packages to install.
+# Show a fuzzy-finder TUI for picking new community repository packages.
+# Supports Arch (AUR via yay) and Fedora (COPR via dnf).
+
+# Load distro detection
+OMARCHY_PATH="${OMARCHY_PATH:-$HOME/.local/share/omarchy}"
+if [[ -f "$OMARCHY_PATH/install/helpers/distro.sh" ]]; then
+  source "$OMARCHY_PATH/install/helpers/distro.sh"
+else
+  # fallback detection
+  if [[ -f /etc/arch-release ]]; then
+    DISTRO_ID="arch"
+  elif command -v dnf &>/dev/null; then
+    DISTRO_ID="fedora"
+  else
+    echo "Unsupported distribution." >&2
+    exit 1
+  fi
+fi
+
+case "$DISTRO_ID" in
+  arch)
+    # AUR via yay
+    list_cmd="yay -Slqa"
+    preview_cmd="yay -Siia {1}"
+    install_cmd="yay -S --noconfirm"
+    # Need to add aur/ prefix to package names
+    transform_cmd="sed 's/^/aur\//'"
+    ;;
+  fedora)
+    # COPR packages (repos with 'copr' in repoid)
+    list_cmd="dnf repoquery --available --repoid='*copr*' --qf '%{name}\n'"
+    preview_cmd="dnf info {1}"
+    install_cmd="dnf install -y"
+    transform_cmd="cat"
+    ;;
+  *)
+    echo "Unsupported distribution: $DISTRO_ID" >&2
+    exit 1
+    ;;
+esac
 
 fzf_args=(
   --multi
-  --preview 'yay -Siia {1}'
+  --preview "$preview_cmd"
   --preview-label='alt-p: toggle description, alt-b/B: toggle PKGBUILD, alt-j/k: scroll, tab: multi-select'
   --preview-label-pos='bottom'
   --preview-window 'down:65%:wrap'
@@ -16,13 +55,13 @@ fzf_args=(
   --color 'pointer:green,marker:green'
 )
 
-pkg_names=$(yay -Slqa | fzf "${fzf_args[@]}")
+pkg_names=$($list_cmd | fzf "${fzf_args[@]}")
 
 if [[ -n $pkg_names ]]; then
-  # Add aur/ prefix to each package name and convert to space-separated for yay
   source omarchy-sudo-keepalive
 
-  echo "$pkg_names" | sed 's/^/aur\//' | tr '\n' ' ' | xargs yay -S --noconfirm
+  # Apply transformation (add aur/ prefix for Arch) and install
+  echo "$pkg_names" | eval "$transform_cmd" | tr '\n' ' ' | xargs sudo $install_cmd
   sudo updatedb
   omarchy-show-done
 fi

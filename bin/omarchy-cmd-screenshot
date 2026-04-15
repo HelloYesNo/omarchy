@@ -12,7 +12,7 @@ if [[ ! -d $OUTPUT_DIR ]]; then
   notify-send "Created screenshot directory: $OUTPUT_DIR" -u normal -t 2000
 fi
 
-pkill slurp && exit 0
+pkill slurp 2>/dev/null
 
 SCREENSHOT_EDITOR="${OMARCHY_SCREENSHOT_EDITOR:-satty}"
 

@@ -2,5 +2,33 @@
 
 set -e
 
+# Load distro detection
+OMARCHY_PATH="${OMARCHY_PATH:-$HOME/.local/share/omarchy}"
+if [[ -f "$OMARCHY_PATH/install/helpers/distro.sh" ]]; then
+  source "$OMARCHY_PATH/install/helpers/distro.sh"
+else
+  # fallback detection
+  if [[ -f /etc/arch-release ]]; then
+    DISTRO_ID="arch"
+  elif command -v dnf &>/dev/null; then
+    DISTRO_ID="fedora"
+  else
+    echo "Unsupported distribution." >&2
+    exit 1
+  fi
+fi
+
 echo -e "\e[32m\nUpdate system packages\e[0m"
-sudo pacman -Syyu --noconfirm
+
+case "$DISTRO_ID" in
+  arch)
+    sudo pacman -Syyu --noconfirm
+    ;;
+  fedora)
+    sudo dnf upgrade -y
+    ;;
+  *)
+    echo "Unsupported distribution: $DISTRO_ID" >&2
+    exit 1
+    ;;
+esac

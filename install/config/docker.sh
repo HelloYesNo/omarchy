@@ -1,3 +1,11 @@
+#!/bin/bash
+
+# Docker configuration is only relevant if Docker is installed (docker.socket exists).
+if [[ ! -f /usr/lib/systemd/system/docker.socket ]]; then
+    echo "Docker not installed; skipping Docker configuration."
+    exit 0
+fi
+
 # Configure Docker daemon:
 # - limit log size to avoid running out of disk
 # - use host's DNS resolver

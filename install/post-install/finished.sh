@@ -1,12 +1,24 @@
 stop_install_log
 
 echo_in_style() {
-  echo "$1" | tte --canvas-width 0 --anchor-text c --frame-rate 640 print
+  if command -v tte &>/dev/null; then
+    echo "$1" | tte --canvas-width 0 --anchor-text c --frame-rate 640 print
+  else
+    echo "$1"
+  fi
 }
 
 clear
 echo
-tte -i ~/.local/share/omarchy/logo.txt --canvas-width 0 --anchor-text c --frame-rate 920 laseretch
+if [[ -f $OMARCHY_PATH/logo.txt ]]; then
+  if command -v tte &>/dev/null; then
+    tte -i "$OMARCHY_PATH/logo.txt" --canvas-width 0 --anchor-text c --frame-rate 920 laseretch
+  else
+    cat "$OMARCHY_PATH/logo.txt"
+  fi
+else
+  echo "Warning: logo.txt not found at $OMARCHY_PATH/logo.txt"
+fi
 echo
 
 # Display installation time if available
@@ -25,7 +37,7 @@ if sudo test -f /etc/sudoers.d/99-omarchy-installer; then
 fi
 
 # Exit gracefully if user chooses not to reboot
-if gum confirm --padding "0 0 0 $((PADDING_LEFT + 32))" --show-help=false --default --affirmative "Reboot Now" --negative "" ""; then
+if gum confirm --show-help=false --default --affirmative "Reboot Now" --negative "" ""; then
   # Clear screen to hide any shutdown messages
   clear
 

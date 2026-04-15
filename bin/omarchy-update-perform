@@ -19,6 +19,7 @@ omarchy-update-system-pkgs
 omarchy-migrate
 omarchy-update-aur-pkgs
 omarchy-update-orphan-pkgs
+omarchy-update-flatpak
 omarchy-hook post-update
 
 omarchy-update-analyze-logs

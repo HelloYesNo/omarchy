@@ -2,8 +2,20 @@
 
 # Returns true if any of the named packages are missing from the system (or false if they're all there).
 
+# Determine package query command
+if [[ -z ${PKG_QUERY:-} ]]; then
+  # Fallback detection
+  if [[ -f /etc/arch-release ]]; then
+    PKG_QUERY="pacman -Q"
+  elif command -v rpm &>/dev/null; then
+    PKG_QUERY="rpm -q"
+  else
+    PKG_QUERY="pacman -Q"
+  fi
+fi
+
 for pkg in "$@"; do
-  if ! pacman -Q "$pkg" &>/dev/null; then
+  if ! $PKG_QUERY "$pkg" &>/dev/null; then
     exit 0
   fi
 done

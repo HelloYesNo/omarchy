@@ -2,15 +2,37 @@
 
 # Add the named packages to the system if they're missing. Returns false if it couldn't be done.
 
+# Determine package install and query commands
+if [[ -z ${PKG_INSTALL:-} ]]; then
+  # Fallback detection
+  if [[ -f /etc/arch-release ]]; then
+    PKG_MANAGER="pacman"
+    PKG_INSTALL="pacman -S --noconfirm --needed"
+    PKG_QUERY="pacman -Q"
+  elif command -v dnf &>/dev/null; then
+    PKG_MANAGER="dnf"
+    PKG_INSTALL="dnf install -y --skip-broken --setopt=strict=0"
+    PKG_QUERY="rpm -q"
+  else
+    PKG_MANAGER="pacman"
+    PKG_INSTALL="pacman -S --noconfirm --needed"
+    PKG_QUERY="pacman -Q"
+  fi
+fi
+
 if omarchy-pkg-missing "$@"; then
-  sudo pacman -S --noconfirm --needed "$@" || exit 1
+  sudo $PKG_INSTALL "$@" || exit 1
 fi
 
 for pkg in "$@"; do
-  # Secondary check to handle states where pacman doesn't actually register an error
-  if ! pacman -Q "$pkg" &>/dev/null; then
-    echo -e "\033[31mError: Package '$pkg' did not install\033[0m" >&2
-    exit 1
+  # Secondary check to handle states where the package manager doesn't actually register an error
+  if ! $PKG_QUERY "$pkg" &>/dev/null; then
+    if [[ $PKG_QUERY == *rpm* ]]; then
+      echo -e "\033[33mWarning: Package '$pkg' may have been skipped (not available or conflict)\033[0m" >&2
+    else
+      echo -e "\033[31mError: Package '$pkg' did not install\033[0m" >&2
+      exit 1
+    fi
   fi
 done
 

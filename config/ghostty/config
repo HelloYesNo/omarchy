@@ -2,9 +2,10 @@
 config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
 
 # Font
-font-family = "JetBrainsMono Nerd Font"
+font-family = "JetBrains Mono"
 font-style = Regular
 font-size = 9
+letter-spacing = -0.5
 
 # Window
 window-theme = ghostty

@@ -90,7 +90,7 @@ catch_errors() {
   clear_logo
   show_cursor
 
-  gum style --foreground 1 --padding "1 0 1 $PADDING_LEFT" "Omarchy installation stopped!"
+  gum style --foreground 1 "Omarchy installation stopped!"
   show_log_tail
 
   gum style "This command halted with exit code $exit_code:"
@@ -118,7 +118,7 @@ catch_errors() {
     options+=("View full log")
     options+=("Exit")
 
-    choice=$(gum choose "${options[@]}" --header "What would you like to do?" --height 6 --padding "1 $PADDING_LEFT")
+    choice=$(gum choose "${options[@]}" --header "What would you like to do?" --height 6)
 
     case "$choice" in
     "Retry installation")

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Skip on non-Arch systems
+if [[ ! -f /etc/arch-release ]] && ! command -v pacman &>/dev/null; then
+  exit 0
+fi
+
 # Update AUR packages if any are installed
 if pacman -Qem >/dev/null; then
   if omarchy-pkg-aur-accessible; then

@@ -2,19 +2,29 @@
 
 # Ensure all default .desktop, web apps, and TUIs are installed.
 
-# Copy and sync icon files
+# Determine source directory (Omarchy repo)
+SOURCE_APPS="$OMARCHY_PATH/applications"
+SOURCE_ICONS="$SOURCE_APPS/icons"
+
+# Copy and sync icon files (to system icon theme)
 mkdir -p ~/.local/share/icons/hicolor/48x48/apps/
-cp ~/.local/share/omarchy/applications/icons/*.png ~/.local/share/icons/hicolor/48x48/apps/
+if [[ -d $SOURCE_ICONS ]]; then
+    cp "$SOURCE_ICONS"/*.png ~/.local/share/icons/hicolor/48x48/apps/ 2>/dev/null || true
+fi
 gtk-update-icon-cache ~/.local/share/icons/hicolor &>/dev/null
 
 # Copy .desktop declarations
 mkdir -p ~/.local/share/applications
-cp ~/.local/share/omarchy/applications/*.desktop ~/.local/share/applications/
-cp ~/.local/share/omarchy/applications/hidden/*.desktop ~/.local/share/applications/
+if [[ -d $SOURCE_APPS ]]; then
+    cp "$SOURCE_APPS"/*.desktop ~/.local/share/applications/ 2>/dev/null || true
+    if [[ -d $SOURCE_APPS/hidden ]]; then
+        cp "$SOURCE_APPS"/hidden/*.desktop ~/.local/share/applications/ 2>/dev/null || true
+    fi
+fi
 
 # Refresh the webapps and TUIs
-bash $OMARCHY_PATH/install/packaging/icons.sh
-bash $OMARCHY_PATH/install/packaging/webapps.sh
-bash $OMARCHY_PATH/install/packaging/tuis.sh
+bash "$OMARCHY_PATH/install/packaging/icons.sh"
+bash "$OMARCHY_PATH/install/packaging/webapps.sh"
+bash "$OMARCHY_PATH/install/packaging/tuis.sh"
 
 update-desktop-database ~/.local/share/applications

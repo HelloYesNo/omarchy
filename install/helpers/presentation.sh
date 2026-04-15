@@ -35,14 +35,14 @@ export GUM_CONFIRM_SELECTED_BACKGROUND="2"   # Green background for selected
 export GUM_CONFIRM_UNSELECTED_FOREGROUND="7" # White for unselected
 export GUM_CONFIRM_UNSELECTED_BACKGROUND="0" # Black background for unselected
 export PADDING="0 0 0 $PADDING_LEFT"         # Gum Style
-export GUM_CHOOSE_PADDING="$PADDING"
-export GUM_FILTER_PADDING="$PADDING"
-export GUM_INPUT_PADDING="$PADDING"
-export GUM_SPIN_PADDING="$PADDING"
-export GUM_TABLE_PADDING="$PADDING"
-export GUM_CONFIRM_PADDING="$PADDING"
+# export GUM_CHOOSE_PADDING="$PADDING"
+# export GUM_FILTER_PADDING="$PADDING"
+# export GUM_INPUT_PADDING="$PADDING"
+# export GUM_SPIN_PADDING="$PADDING"
+# export GUM_TABLE_PADDING="$PADDING"
+# export GUM_CONFIRM_PADDING="$PADDING"
 
 clear_logo() {
   printf "\033[H\033[2J" # Clear screen and move cursor to top-left
-  gum style --foreground 2 --padding "1 0 0 $PADDING_LEFT" "$(<"$LOGO_PATH")"
+  gum style --foreground 2 "$(<"$LOGO_PATH")"
 }

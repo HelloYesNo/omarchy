@@ -9,4 +9,43 @@ google-chrome* | brave-browser* | microsoft-edge* | opera* | vivaldi* | helium*)
 *) browser="chromium.desktop" ;;
 esac
 
-exec setsid uwsm-app -- $(sed -n 's/^Exec=\([^ ]*\).*/\1/p' {~/.local,~/.nix-profile,/usr}/share/applications/$browser 2>/dev/null | head -1) --app="$1" "${@:2}"
+# Try to find the desktop file in common locations
+desktop_paths=(
+  ~/.local/share/applications
+  ~/.nix-profile/share/applications
+  /usr/share/applications
+  /var/lib/flatpak/exports/share/applications
+  ~/.local/share/flatpak/exports/share/applications
+)
+
+browser_exec=
+for path in "${desktop_paths[@]}"; do
+  desktop_file="$path/$browser"
+  if [[ -f $desktop_file ]]; then
+    # Extract the Exec line, remove placeholders, and trim
+    exec_line=$(grep -m1 '^Exec=' "$desktop_file" | sed 's/^Exec=//')
+    exec_line=$(echo "$exec_line" | sed 's/%[a-zA-Z]//g; s/@@[^ ]*//g; s/  */ /g; s/^ *//; s/ *$//')
+    if [[ -n $exec_line ]]; then
+      browser_exec="$exec_line"
+      break
+    fi
+  fi
+done
+
+# If still empty, try to construct a flatpak command from the desktop file ID
+if [[ -z $browser_exec && $browser == *.desktop ]]; then
+    app_id="${browser%.desktop}"
+    if flatpak info "$app_id" &>/dev/null; then
+        browser_exec="flatpak run $app_id"
+    fi
+fi
+
+if [[ -z $browser_exec ]]; then
+    echo "Error: Could not determine browser command for $browser" >&2
+    exit 1
+fi
+
+# Split the command into arguments for uwsm-app
+IFS=' ' read -r -a cmd_array <<< "$browser_exec"
+
+exec setsid uwsm-app -- "${cmd_array[@]}" --app="$1" "${@:2}"

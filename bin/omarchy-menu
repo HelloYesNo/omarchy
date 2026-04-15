@@ -299,9 +299,37 @@ show_setup_system_menu() {
 }
 
 show_install_menu() {
-  case $(menu "Install" "󰣇  Package\n󰣇  AUR\n  Web App\n  TUI\n  Service\n  Style\n󰵮  Development\n  Editor\n  Terminal\n󱚤  AI\n󰍲  Windows\n  Gaming") in
-  *Package*) terminal omarchy-pkg-install ;;
-  *AUR*) terminal omarchy-pkg-aur-install ;;
+  # Load distro detection to adjust community repo label
+  OMARCHY_PATH="${OMARCHY_PATH:-$HOME/.local/share/omarchy}"
+  if [[ -f "$OMARCHY_PATH/install/helpers/distro.sh" ]]; then
+    source "$OMARCHY_PATH/install/helpers/distro.sh"
+  else
+    # fallback detection
+    if [[ -f /etc/arch-release ]]; then
+      DISTRO_ID="arch"
+    elif command -v dnf &>/dev/null; then
+      DISTRO_ID="fedora"
+    else
+      DISTRO_ID="unknown"
+    fi
+  fi
+
+  case "$DISTRO_ID" in
+    arch)
+      community_label="AUR"
+      ;;
+    fedora)
+      community_label="COPR"
+      ;;
+    *)
+      community_label="Community"
+      ;;
+  esac
+
+  case $(menu "Install" "󰣇  Package\n󰣇  $community_label\n󰇉  Flatpak\n  Web App\n  TUI\n  Service\n  Style\n󰵮  Development\n  Editor\n  Terminal\n󱚤  AI\n󰍲  Windows\n  Gaming") in
+  *Package*) present_terminal omarchy-pkg-install ;;
+  *AUR*|*COPR*|*Community*) present_terminal omarchy-pkg-aur-install ;;
+  *Flatpak*) present_terminal omarchy-pkg-flatpak-install ;;
   *Web*) present_terminal omarchy-webapp-install ;;
   *TUI*) present_terminal omarchy-tui-install ;;
   *Service*) show_install_service_menu ;;
@@ -505,11 +533,12 @@ show_remove_elixir_menu() {
 }
 
 show_update_menu() {
-  case $(menu "Update" "  Omarchy\n󰔫  Channel\n  Config\n󰸌  Extra Themes\n  Process\n󰇅  Hardware\n  Firmware\n  Password\n  Timezone\n  Time") in
+  case $(menu "Update" "  Omarchy\n󰔫  Channel\n  Config\n󰸌  Extra Themes\n󰇉  Flatpak\n  Process\n󰇅  Hardware\n  Firmware\n  Password\n  Timezone\n  Time") in
   *Omarchy*) present_terminal omarchy-update ;;
   *Channel*) show_update_channel_menu ;;
   *Config*) show_update_config_menu ;;
   *Themes*) present_terminal omarchy-theme-update ;;
+  *Flatpak*) present_terminal omarchy-update-flatpak ;;
   *Process*) show_update_process_menu ;;
   *Hardware*) show_update_hardware_menu ;;
   *Firmware*) present_terminal omarchy-update-firmware ;;
