@@ -80,7 +80,13 @@ if [[ "--remove" == $1 ]]; then
 
   # Uninstall packages
   print_info "Removing FIDO2 packages..."
-  sudo pacman -Rns --noconfirm libfido2 pam-u2f
+  if [[ -f /etc/arch-release ]]; then
+    sudo pacman -Rns --noconfirm libfido2 pam-u2f
+  elif command -v dnf &>/dev/null; then
+    sudo dnf remove -y libfido2 pam-u2f
+  else
+    omarchy-pkg-drop libfido2 pam-u2f 2>/dev/null || true
+  fi
 
   print_success "FIDO2 authentication has been completely removed."
 else

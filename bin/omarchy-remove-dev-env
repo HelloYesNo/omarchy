@@ -9,7 +9,11 @@ if [[ -z $1 ]]; then
 fi
 
 remove_php() {
-  sudo pacman -Rns --noconfirm php composer php-sqlite xdebug 2>/dev/null || true
+  if [[ -f /etc/arch-release ]]; then
+    sudo pacman -Rns --noconfirm php composer php-sqlite xdebug 2>/dev/null || true
+  elif command -v dnf &>/dev/null; then
+    sudo dnf remove -y php composer php-sqlite xdebug 2>/dev/null || true
+  fi
 }
 
 case "$1" in
@@ -49,7 +53,11 @@ laravel)
   ;;
 symfony)
   echo -e "Removing Symfony CLI...\n"
-  sudo pacman -Rns --noconfirm symfony-cli 2>/dev/null || true
+  if [[ -f /etc/arch-release ]]; then
+    sudo pacman -Rns --noconfirm symfony-cli 2>/dev/null || true
+  elif command -v dnf &>/dev/null; then
+    sudo dnf remove -y symfony-cli 2>/dev/null || true
+  fi
   ;;
 python)
   echo -e "Removing Python...\n"

@@ -3,6 +3,11 @@
 # Removes hibernation setup: disables swap, removes swapfile, removes fstab entry,
 # removes resume hook, and removes suspend-then-hibernate configuration.
 
+if ! command -v limine-mkinitcpio &>/dev/null; then
+  echo "Skipping hibernation removal (not configured with Limine)"
+  exit 0
+fi
+
 MKINITCPIO_CONF="/etc/mkinitcpio.conf.d/omarchy_resume.conf"
 
 # Check if hibernation is configured

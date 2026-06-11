@@ -2,8 +2,16 @@
 
 # Remove all the named packages from the system if they're installed (otherwise ignore).
 
+if command -v rpm &>/dev/null; then
+  PKG_QUERY="rpm -q"
+  PKG_REMOVE="dnf remove -y"
+else
+  PKG_QUERY="pacman -Q"
+  PKG_REMOVE="pacman -Rns --noconfirm"
+fi
+
 for pkg in "$@"; do
-  if pacman -Q "$pkg" &>/dev/null; then
-    sudo pacman -Rns --noconfirm "$pkg"
+  if $PKG_QUERY "$pkg" &>/dev/null; then
+    sudo $PKG_REMOVE "$pkg"
   fi
 done

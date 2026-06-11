@@ -86,9 +86,15 @@ installed|system-info)
   {
     echo ""
     echo "========================================="
-    echo "INSTALLED PACKAGES (pacman -Q)"
+    echo "INSTALLED PACKAGES"
     echo "========================================="
-    pacman -Q 2>/dev/null || echo "Failed to get package list"
+    if command -v pacman &>/dev/null; then
+      pacman -Q 2>/dev/null
+    elif command -v rpm &>/dev/null; then
+      rpm -qa --qf '%{name} %{version}-%{release}\n' 2>/dev/null
+    else
+      echo "Failed to get package list"
+    fi
   } >>"$TEMP_LOG"
 
   if [[ ! -s $TEMP_LOG ]]; then

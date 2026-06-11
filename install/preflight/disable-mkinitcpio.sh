@@ -1,3 +1,8 @@
+if [[ ${DISTRO_ID:-} != "arch" ]]; then
+  echo "Skipping mkinitcpio hook disable (not on Arch)"
+  exit 0
+fi
+
 # Temporarily disable mkinitcpio hooks to prevent multiple regenerations during package installation
 # This speeds up installation significantly
 

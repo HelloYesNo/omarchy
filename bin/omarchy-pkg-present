@@ -3,7 +3,11 @@
 # Returns true if all of the named packages are installed on the system (or false if any of them are missing).
 
 for pkg in "$@"; do
-  pacman -Q "$pkg" &>/dev/null || exit 1
+  if command -v rpm &>/dev/null; then
+    rpm -q "$pkg" &>/dev/null || exit 1
+  else
+    pacman -Q "$pkg" &>/dev/null || exit 1
+  fi
 done
 
 exit 0

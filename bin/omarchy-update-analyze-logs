@@ -2,10 +2,18 @@
 
 update_log="/tmp/omarchy-update.log"
 
-# Check for initramfs generation failure
+# Check for initramfs generation failure (Arch / mkinitcpio)
 if grep -q "Updating linux initcpios" "$update_log"; then
   if ! grep -q "Initcpio image generation successful" "$update_log"; then
     echo -e '\e[31mError: Initramfs generation may have failed. Review logs before restart.\e[0m'
+    echo
+  fi
+fi
+
+# Check for initramfs generation failure (Fedora / dracut)
+if grep -q "Running dracut" "$update_log" || grep -q "dracut-install:" "$update_log"; then
+  if ! grep -E -q "Creating initramfs|dracut: \*\*\* Creating image file|dracut: \*\*\* Creating initramfs image file" "$update_log"; then
+    echo -e '\e[31mError: Initramfs generation may have failed (dracut). Review logs before restart.\e[0m'
     echo
   fi
 fi

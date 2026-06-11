@@ -1,7 +1,13 @@
 #!/bin/bash
 
-# Launch the Omarchy bluetooth controls TUI (provided by bluetui).
-# Also attempts to unblock bluetooth service if rfkill had blocked it.
+rfkill unblock bluetooth 2>/dev/null || true
 
-rfkill unblock bluetooth
-exec omarchy-launch-or-focus-tui bluetui
+if [[ -x ~/.local/bin/bluetui ]]; then
+  BLUETUI=~/.local/bin/bluetui
+elif [[ -x ~/.cargo/bin/bluetui ]]; then
+  BLUETUI=~/.cargo/bin/bluetui
+else
+  BLUETUI=bluetui
+fi
+
+exec setsid uwsm-app -- xdg-terminal-exec --app-id=org.omarchy.bluetui -e "$BLUETUI"

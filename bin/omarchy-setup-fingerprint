@@ -92,7 +92,13 @@ if [[ "--remove" == $1 ]]; then
 
   # Uninstall packages
   print_info "Removing fingerprint packages..."
-  sudo pacman -Rns --noconfirm fprintd
+  if [[ -f /etc/arch-release ]]; then
+    sudo pacman -Rns --noconfirm fprintd
+  elif command -v dnf &>/dev/null; then
+    sudo dnf remove -y fprintd
+  else
+    omarchy-pkg-drop fprintd 2>/dev/null || sudo dnf remove -y fprintd 2>/dev/null || true
+  fi
 
   print_success "Fingerprint authentication has been completely removed."
 else

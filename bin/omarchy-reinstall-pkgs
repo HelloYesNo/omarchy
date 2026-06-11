@@ -1,7 +1,12 @@
 #!/bin/bash
 set -e
 
-# Reinstall all default Omarchy packages from the stable channel and downgrade any packages that are too new.
+# Reinstall all default Omarchy packages and downgrade any packages that are too new.
+
+if [[ ! -f /etc/arch-release ]] && ! command -v pacman &>/dev/null; then
+  echo "omarchy-reinstall-pkgs is only supported on Arch Linux." >&2
+  exit 1
+fi
 
 # Set the package repository to the stable mirrors
 omarchy-refresh-pacman

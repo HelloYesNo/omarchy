@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+
+if ! command -v cargo &>/dev/null; then
+  exit 0
+fi
+
+echo -e "\e[32m\nUpdate Cargo packages\e[0m"
+
+if command -v cargo-install-update &>/dev/null; then
+  cargo install-update --all
+else
+  # Fallback: iterate over installed packages and update each
+  cargo install --list | grep -E '^\S' | grep -v '^cargo' | while IFS= read -r line; do
+    crate=$(echo "$line" | awk '{print $1}' | sed 's/:$//')
+    [[ -n $crate ]] && cargo install --force "$crate" || true
+  done
+fi
+
+echo

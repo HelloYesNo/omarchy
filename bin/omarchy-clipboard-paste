@@ -1,0 +1,5 @@
+#!/bin/bash
+CLIP=$(wl-paste 2>/dev/null)
+if [[ -n $CLIP ]]; then
+  wtype -- "$CLIP"
+fi

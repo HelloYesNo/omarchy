@@ -25,7 +25,7 @@ case "$DISTRO_ID" in
     sudo pacman -Syyu --noconfirm
     ;;
   fedora)
-    sudo dnf upgrade -y
+    sudo dnf upgrade --refresh -y
     ;;
   *)
     echo "Unsupported distribution: $DISTRO_ID" >&2

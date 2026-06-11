@@ -29,6 +29,15 @@ create)
   echo
   ;;
 restore)
-  sudo limine-snapper-restore
+  if command -v limine-snapper-restore &>/dev/null; then
+    sudo limine-snapper-restore
+  elif command -v snapper &>/dev/null; then
+    echo "Manual snapshot restore required: sudo snapper undochange <pre>..<post>"
+    sudo snapper list
+    exit 1
+  else
+    echo "No snapshot restore tool available" >&2
+    exit 1
+  fi
   ;;
 esac

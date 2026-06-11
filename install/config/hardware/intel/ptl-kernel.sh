@@ -2,6 +2,11 @@
 # The linux-ptl kernel includes audio driver patches not yet in mainline.
 
 if omarchy-hw-intel-ptl; then
+  if [[ ${DISTRO_ID:-} != "arch" ]]; then
+    echo "Detected Intel Panther Lake but PTL kernel is only available on Arch; skipping."
+    exit 0
+  fi
+
   echo "Detected Intel Panther Lake, installing PTL kernel..."
 
   omarchy-pkg-add linux-ptl linux-ptl-headers

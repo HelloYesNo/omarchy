@@ -1,9 +1,16 @@
 #!/bin/bash
 
-# Install and launch Steam after first letting the user pick the correct grahics card drivers.
+# Install and launch Steam after first letting the user pick the correct graphics card drivers.
 
 set -e
 
 echo "Now pick dependencies matching your graphics card"
-sudo pacman -S steam
+if [[ -f /etc/arch-release ]]; then
+  sudo pacman -S steam
+elif command -v dnf &>/dev/null; then
+  sudo dnf install -y steam
+else
+  echo "Unsupported distribution for Steam install" >&2
+  exit 1
+fi
 setsid gtk-launch steam >/dev/null 2>&1 &

@@ -65,3 +65,44 @@ else
 fi
 
 echo "Fedora extra packages done."
+
+# Install Rust-based TUIs via cargo (not in dnf repos)
+echo "Installing Omarchy TUIs via cargo..."
+
+if command -v cargo >/dev/null 2>&1; then
+  export PATH="$HOME/.cargo/bin:$PATH"
+
+  if ! command -v cargo-install-update >/dev/null 2>&1; then
+    echo "Installing cargo-update (for updating cargo packages)..."
+    cargo install cargo-update --locked
+  else
+    echo "cargo-update already installed."
+  fi
+
+  if ! command -v impala >/dev/null 2>&1; then
+    echo "Installing impala (wifi TUI)..."
+    cargo install impala --locked
+  else
+    echo "impala already installed."
+  fi
+  mkdir -p ~/.local/bin
+  ln -sf ~/.cargo/bin/impala ~/.local/bin/impala 2>/dev/null || true
+
+  if ! command -v bluetui >/dev/null 2>&1; then
+    echo "Installing bluetui (bluetooth TUI)..."
+    cargo install bluetui --locked
+  else
+    echo "bluetui already installed."
+  fi
+  ln -sf ~/.cargo/bin/bluetui ~/.local/bin/bluetui 2>/dev/null || true
+
+  if ! command -v aether >/dev/null 2>&1; then
+    echo "Installing aether (bluetooth)..."
+    cargo install aether --locked
+  else
+    echo "aether already installed."
+  fi
+  ln -sf ~/.cargo/bin/aether ~/.local/bin/aether 2>/dev/null || true
+else
+  echo "cargo not found; skipping TUI installs."
+fi

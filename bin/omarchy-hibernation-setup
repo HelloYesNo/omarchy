@@ -9,7 +9,11 @@ if [[ ! -f /sys/power/image_size ]]; then
 fi
 
 if ! command -v limine-mkinitcpio &>/dev/null; then
-  echo "Skipping hibernation setup (requires Limine bootloader)"
+  if [[ ! -f /etc/arch-release ]] && ! command -v pacman &>/dev/null; then
+    echo "Skipping hibernation setup (not supported on this distribution)"
+  else
+    echo "Skipping hibernation setup (requires Limine bootloader)"
+  fi
   exit 0
 fi
 

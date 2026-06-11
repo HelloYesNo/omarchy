@@ -33,6 +33,7 @@ fcitx5-qt
 fd-find
 ffmpegthumbnailer
 fontconfig
+fprintd
 fzf
 github-cli
 gnome-calculator
@@ -72,6 +73,7 @@ google-noto-cjk-fonts
 google-noto-emoji-fonts
 nss-mdns
 neovim
+nm-connection-editor
 obs-studio
 pamixer
 pinta
@@ -104,11 +106,14 @@ tmux
 jetbrains-mono-fonts
 ufw
 unzip
+usbutils
+util-linux-script
 waybar
 whois
 wireless-regdb
 wireplumber
 wl-clipboard
+wtype
 fontawesome-fonts
 xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland
@@ -142,16 +147,16 @@ gum
 # localsend
 # obsidian
 
-# Arch‑specific packages (skip)
+# Arch‑specific packages (may also be installed via cargo on Fedora)
 # expac
 # kernel-modules-hook
 # yay
 # omarchy-nvim
 # omarchy-walker
 # asdcontrol
-# bluetui
-# aether
-# impala
+bluetui
+aether
+impala
 # satty
 # tobi-try
 # ttf-ia-writer

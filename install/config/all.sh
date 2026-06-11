@@ -27,15 +27,24 @@ run_logged $OMARCHY_INSTALL/config/input-group.sh
 run_logged $OMARCHY_INSTALL/config/omarchy-ai-skill.sh
 run_logged $OMARCHY_INSTALL/config/kernel-modules-hook.sh
 run_logged $OMARCHY_INSTALL/config/powerprofilesctl-rules.sh
-run_logged $OMARCHY_INSTALL/config/wifi-powersave-rules.sh
 run_logged $OMARCHY_INSTALL/config/plocate-ac-only.sh
 
-# Hardware configuration (Arch‑specific; skip on Fedora)
+# Hardware configuration (cross-distro networking & bluetooth)
+run_logged $OMARCHY_INSTALL/config/hardware/network.sh
+run_logged $OMARCHY_INSTALL/config/hardware/bluetooth.sh
+run_logged $OMARCHY_INSTALL/config/hardware/set-wireless-regdom.sh
+run_logged $OMARCHY_INSTALL/config/wifi-powersave-rules.sh
+
+# Fedora: configure NetworkManager to use iwd as wifi backend
+if [[ ${DISTRO_ID:-} == "fedora" ]] && [[ ! -f /etc/NetworkManager/conf.d/iwd-backend.conf ]]; then
+  echo "Configuring NetworkManager to use iwd as wifi backend..."
+  sudo mkdir -p /etc/NetworkManager/conf.d
+  printf '[device]\nwifi.backend=iwd\n' | sudo tee /etc/NetworkManager/conf.d/iwd-backend.conf >/dev/null
+fi
+
+# Arch‑specific hardware configuration
 if [[ ${DISTRO_ID:-} == "arch" ]]; then
-  run_logged $OMARCHY_INSTALL/config/hardware/network.sh
-  run_logged $OMARCHY_INSTALL/config/hardware/set-wireless-regdom.sh
   run_logged $OMARCHY_INSTALL/config/hardware/fix-fkeys.sh
-  run_logged $OMARCHY_INSTALL/config/hardware/bluetooth.sh
   run_logged $OMARCHY_INSTALL/config/hardware/printer.sh
   run_logged $OMARCHY_INSTALL/config/hardware/usb-autosuspend.sh
   run_logged $OMARCHY_INSTALL/config/hardware/ignore-power-button.sh

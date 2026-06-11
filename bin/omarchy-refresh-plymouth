@@ -7,6 +7,8 @@ sudo plymouth-set-default-theme omarchy
 
 if command -v limine-mkinitcpio &>/dev/null; then
   sudo limine-mkinitcpio
+elif command -v dracut &>/dev/null; then
+  sudo dracut --regenerate-all --force
 else
   sudo mkinitcpio -P
 fi

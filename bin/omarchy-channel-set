@@ -21,10 +21,10 @@ else
 fi
 
 case "$channel" in
-"stable") omarchy-branch-set "master" && omarchy-refresh-pacman "stable" ;;
-"rc") omarchy-branch-set "rc" && omarchy-refresh-pacman "rc" ;;
-"edge") omarchy-branch-set "master" && omarchy-refresh-pacman "edge" ;;
-"dev") omarchy-branch-set "dev" && omarchy-refresh-pacman "edge" ;;
+"stable") omarchy-branch-set "master" && (omarchy-refresh-pacman "stable" 2>/dev/null || true) ;;
+"rc") omarchy-branch-set "rc" && (omarchy-refresh-pacman "rc" 2>/dev/null || true) ;;
+"edge") omarchy-branch-set "master" && (omarchy-refresh-pacman "edge" 2>/dev/null || true) ;;
+"dev") omarchy-branch-set "dev" && (omarchy-refresh-pacman "edge" 2>/dev/null || true) ;;
 *) echo "Unknown channel: $channel"; exit 1; ;;
 esac
 
